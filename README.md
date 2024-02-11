@@ -12,3 +12,6 @@ An Android app to map WiFi signals. It can be used for WiFi fingerprint recordin
 <a href="https://ibb.co/PTzNhRY"><img src="https://i.ibb.co/8z405JB/Screenshot-2024-02-09-20-02-29-30-83fc09d85b5ae951df0fe0bc6caa1f08.jpg" alt="Screenshot-2024-02-09-20-02-29-30-83fc09d85b5ae951df0fe0bc6caa1f08" border="0" style="width: 30%;"></a>
 <a href="https://ibb.co/pKNbcZt"><img src="https://i.ibb.co/z2CQpby/Screenshot-2024-02-09-20-01-29-25-83fc09d85b5ae951df0fe0bc6caa1f08.jpg" alt="Screenshot-2024-02-09-20-01-29-25-83fc09d85b5ae951df0fe0bc6caa1f08" border="0" style="width: 30%;"></a>
 <a href="https://ibb.co/bH1tkJf"><img src="https://i.ibb.co/PTxkdQS/Screenshot-2024-02-09-20-02-01-52-83fc09d85b5ae951df0fe0bc6caa1f08.jpg" alt="Screenshot-2024-02-09-20-02-01-52-83fc09d85b5ae951df0fe0bc6caa1f08" border="0" style="width: 30%;"></a>
+
+## TODO
+- [ ] Refactor the code
