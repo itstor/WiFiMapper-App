@@ -1,5 +1,5 @@
 # WiFi Mapper
-An Android app to map WiFi signal. It can be used for WiFi fingerprint records or WiFi signal analysis. Developed for my Undergraduate Thesis.
+An Android app to map WiFi signals. It can be used for WiFi fingerprint recording or WiFi signal analysis, developed for my undergraduate thesis.
 
 ## Features
 To Be Added
