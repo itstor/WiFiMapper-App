@@ -2,6 +2,7 @@ package com.itstor.wifimapper.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import java.sql.Timestamp
 
 @Serializable
 data class WiFiData(
@@ -15,5 +16,8 @@ data class WiFiData(
     val rssi: Int,
 
     @SerialName("frequency")
-    val frequency: Int
+    val frequency: Int,
+
+    @SerialName("row")
+    val row: Int = 0,
 )

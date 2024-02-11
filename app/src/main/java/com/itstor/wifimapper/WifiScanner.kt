@@ -106,7 +106,10 @@ class WiFiScanner(private val context: Context, private val onSuccessfulScan: (L
      * Should be called when the activity is destroyed.
      */
     fun unregisterReceiver() {
-        context.unregisterReceiver(wifiScanReceiver)
+        if (isBroadcastReceiverRegistered) {
+            context.unregisterReceiver(wifiScanReceiver)
+            isBroadcastReceiverRegistered = false
+        }
     }
 
     companion object {

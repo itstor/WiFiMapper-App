@@ -194,28 +194,28 @@ class SparseGrid<T>(private val initialValue: T) {
         if (minMaxDirty) {
             updateMinMax()
         }
-        return toExternalPosition(minRow ?: 0, 0).x
+        return minRow ?: 0
     }
 
     fun maxOfRow(): Int {
         if (minMaxDirty) {
             updateMinMax()
         }
-        return toExternalPosition(maxRow ?: 0, 0).x
+        return maxRow ?: 0
     }
 
     fun minOfCol(): Int {
         if (minMaxDirty) {
             updateMinMax()
         }
-        return toExternalPosition(0, minCol ?: 0).y
+        return minCol ?: 0
     }
 
     fun maxOfCol(): Int {
         if (minMaxDirty) {
             updateMinMax()
         }
-        return toExternalPosition(0, maxCol ?: 0).y
+        return maxCol ?: 0
     }
 
     fun toExportFormat(): List<ExportFormat<T>> {

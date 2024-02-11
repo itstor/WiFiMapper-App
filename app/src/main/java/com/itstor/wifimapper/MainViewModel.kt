@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.itstor.wifimapper.models.AppState
+import com.itstor.wifimapper.models.DataFormat
 import com.itstor.wifimapper.models.Direction
 import com.itstor.wifimapper.models.PointStatus
 import com.itstor.wifimapper.models.Position
@@ -31,9 +32,6 @@ class MainViewModel : ViewModel() {
 
     private val _azimuthOffset = MutableLiveData(0f)
     val azimuthOffset: LiveData<Float> = _azimuthOffset
-
-    private val _originPosition = MutableLiveData(Position(0, 0))
-    val originPosition: LiveData<Position> = _originPosition
 
     private val _appState = MutableLiveData(AppState.NO_PROJECT)
     val appState: LiveData<AppState> = _appState
@@ -109,7 +107,6 @@ class MainViewModel : ViewModel() {
     }
 
     fun setOriginPosition(position: Position) {
-        _originPosition.value = position
         _mapPoints.value!!.shiftOrigin(position)
         setCurrentPosition(Position(0, 0))
         forceUpdateMap()
@@ -164,5 +161,24 @@ class MainViewModel : ViewModel() {
 
     private fun forceUpdateMap() {
         _mapPoints.value = _mapPoints.value
+    }
+
+    fun loadProjectFromFile(data: DataFormat) {
+        projectSetting = ProjectSetting(
+            projectName = data.projectName,
+            wifiRegex = data.wifiRegex,
+            wifiScanInterval = data.wifiScanInterval,
+            distanceBetweenPoints = data.distanceBetweenPoints,
+            stopScanAt = data.stopScanAt,
+            createdAt = data.createdAt
+        )
+
+        data.data.forEach {
+            _mapPoints.value?.put(Position(it.x, it.y), it.value)
+        }
+
+        forceUpdateMap()
+
+        _appState.value = AppState.ON_IDLE
     }
 }

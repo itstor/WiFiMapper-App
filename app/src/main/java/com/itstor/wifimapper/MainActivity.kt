@@ -1,17 +1,24 @@
 package com.itstor.wifimapper
 
 import android.Manifest
+import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.ContentValues
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.media.RingtoneManager
+import android.net.Uri
 import android.net.wifi.ScanResult
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.FrameLayout
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
@@ -44,6 +51,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var deviceHeading: DeviceHeading
     private lateinit var mapView: MapView
     private lateinit var wifiScanner: WiFiScanner
+    private lateinit var loadProjectLauncher: ActivityResultLauncher<String>
 
     private val scanLoopHandler = Handler(Looper.getMainLooper())
     private val runnableScanLoop = object : Runnable {
@@ -87,6 +95,21 @@ class MainActivity : AppCompatActivity() {
         binding.flMap.addView(mapView, params)
 
         mapView.setPoints(viewModel.mapPoints.value!!)
+
+        loadProjectLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.let {
+                val inputStream = contentResolver.openInputStream(uri)
+                val jsonData = inputStream?.bufferedReader().use { it?.readText() } ?: ""
+
+                try {
+                    val parsedData = Json.decodeFromString(DataFormat.serializer(), jsonData)
+
+                    viewModel.loadProjectFromFile(parsedData)
+                } catch (e: Exception) {
+                    Toast.makeText(this, "The file is not a valid project file", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
 
         viewModel.appState.observe(this) {
             when (it) {
@@ -174,6 +197,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         viewModel.mapPoints.observe(this) {
+            mapView.invalidateMap()
             updateStatsUI()
             updateButtonClearAdd()
         }
@@ -317,7 +341,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnOpenProject.setOnClickListener {
-            Toast.makeText(this, "Not Implemented Yet", Toast.LENGTH_SHORT).show()
+            loadProjectLauncher.launch("application/json")
         }
 
         binding.btnNewProject.setOnClickListener {
@@ -545,6 +569,7 @@ class MainActivity : AppCompatActivity() {
                     bssid = it.BSSID,
                     rssi = it.level,
                     frequency = it.frequency,
+                    row = viewModel.wifiRecordedCounter
                 )
             }
 
@@ -609,5 +634,6 @@ class MainActivity : AppCompatActivity() {
         private const val TAG = "MainActivity"
         private const val STORAGE_PERMISSION_REQUEST_CODE = 1
         private const val LOCATION_WIFI_REQUEST_CODE = 2
+        private const val READ_REQUEST_CODE = 42
     }
 }
