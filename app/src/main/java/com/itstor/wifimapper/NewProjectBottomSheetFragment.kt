@@ -161,7 +161,7 @@ class NewProjectBottomSheetFragment: BottomSheetDialogFragment() {
         val scanInterval = binding.etScanInterval.text.toString()
 
         val isProjectNameValid = projectName.isNotEmpty()
-        val isDistanceValid = distanceBetweenPoints.isNotEmpty() && distanceBetweenPoints.toInt() > 0
+        val isDistanceValid = distanceBetweenPoints.isNotEmpty() && distanceBetweenPoints.toFloat() > 0
         val isStopScanAtValid = stopScanAt.isNotEmpty() && stopScanAt.toInt() >= 0
         val isWifiRegexValid = wifiRegex.isNotEmpty()
         val isScanIntervalValid = scanInterval.isNotEmpty() && scanInterval.toInt() >= 1000
