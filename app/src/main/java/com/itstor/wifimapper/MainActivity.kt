@@ -360,6 +360,10 @@ class MainActivity : AppCompatActivity() {
 //            viewModel.createProject(projectSetting)
         }
 
+        binding.btnSettings.setOnClickListener {
+            showProjectSettingBottomSheet()
+        }
+
         binding.btnSave.setOnClickListener {
             if (!isStoragePermissionGranted(this)) {
                 ActivityCompat.requestPermissions(
@@ -485,6 +489,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun showNewProjectBottomSheet() {
         val bottomSheetFragment = NewProjectBottomSheetFragment()
+        bottomSheetFragment.show(supportFragmentManager, bottomSheetFragment.tag)
+    }
+
+    private fun showProjectSettingBottomSheet() {
+        val bottomSheetFragment = ProjectSettingBottomSheetFragment()
         bottomSheetFragment.show(supportFragmentManager, bottomSheetFragment.tag)
     }
 

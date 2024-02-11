@@ -60,6 +60,10 @@ class MainViewModel : ViewModel() {
         startRecordingTimestamp = System.currentTimeMillis()
     }
 
+    fun changeProjectSetting(projectSetting: ProjectSetting) {
+        this.projectSetting = projectSetting
+    }
+
     fun stopRecording() {
         _appState.value = AppState.ON_IDLE
         val currentTime = System.currentTimeMillis()

@@ -12,7 +12,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.itstor.wifimapper.databinding.ProjectBottomSheetBinding
 import com.itstor.wifimapper.models.ProjectSetting
 
-class NewProjectBottomSheetFragment: BottomSheetDialogFragment() {
+class ProjectSettingBottomSheetFragment: BottomSheetDialogFragment() {
     private val viewModel: MainViewModel by activityViewModels()
     private lateinit var binding: ProjectBottomSheetBinding
 
@@ -31,6 +31,14 @@ class NewProjectBottomSheetFragment: BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnPositive.isEnabled = false
+        binding.btnPositive.text = "Save"
+
+        // Initialize
+        binding.etProjectName.setText(viewModel.projectSetting?.projectName)
+        binding.etDistancePoints.setText(viewModel.projectSetting?.distanceBetweenPoints.toString())
+        binding.etStopScanAt.setText(viewModel.projectSetting?.stopScanAt.toString())
+        binding.etWifiRegex.setText(viewModel.projectSetting?.wifiRegex)
+        binding.etScanInterval.setText(viewModel.projectSetting?.wifiScanInterval.toString())
 
         binding.etProjectName.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -99,11 +107,11 @@ class NewProjectBottomSheetFragment: BottomSheetDialogFragment() {
                     createdAt = System.currentTimeMillis()
                 )
 
-                viewModel.createProject(projectSetting)
+                viewModel.changeProjectSetting(projectSetting)
 
                 dismiss()
 
-                Toast.makeText(requireContext(), "Project created", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Project setting saved", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(requireContext(), "Please fill in all fields correctly", Toast.LENGTH_SHORT).show()
             }
